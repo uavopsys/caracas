@@ -1,0 +1,26 @@
+# --- Local-only / WIP ---
+PLAN.md
+backup/
+notused/
+archive/
+
+# --- Slicer / print-prep output ---
+*.gcode
+*.bgcode
+*.ctb
+
+# --- OpenSCAD scratch ---
+*.csg
+*.scad.bak
+*~
+
+# --- Editor junk ---
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# --- Synology / NAS cruft (in case folder ever re-enters a synced path) ---
+@eaDir/
+.SynologyWorkingDirectory
+Thumbs.db
