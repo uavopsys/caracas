@@ -1,11 +1,47 @@
 /**
- * SpeedyBee Fold 8 - Battery Holder
- * ==================================
+ * Battery Holder
+ * ==============
  * Secure mounting system for FullSend 10A batteries
+ *
+ * Self-contained: all parameters and helper modules live in this file.
  */
 
-include <config.scad>
-include <common_modules.scad>
+// =============================================================================
+// PARAMETERS
+// =============================================================================
+
+// FullSend 10A battery dimensions (mm)
+BATTERY_LENGTH = 160;
+BATTERY_WIDTH = 67;
+BATTERY_DEPTH = 47;
+BATTERY_CLEARANCE = 2.3;  // inner spacing around battery
+
+// Strap handle dimensions (mm)
+STRAP_HANDLE_THICKNESS = 4;
+STRAP_HANDLE_WIDTH = 8;
+STRAP_HANDLE_HEIGHT = 5;
+
+// =============================================================================
+// STRAP HANDLE
+// =============================================================================
+
+/**
+ * Strap Handle - zip-tie or velcro strap loop
+ * Used for securing the battery to the bay
+ */
+module strap_handle() {
+    thickness = STRAP_HANDLE_THICKNESS;
+    width = STRAP_HANDLE_WIDTH;
+    height = STRAP_HANDLE_HEIGHT;
+
+    difference() {
+        // Outer block
+        cube([22 + 2*thickness, width, height + thickness], center=true);
+
+        // Inner cutout for strap
+        cube([22, width + 1, height], center=true);
+    }
+}
 
 // =============================================================================
 // FULLSEND 10A BATTERY BAY
@@ -150,6 +186,6 @@ fullsend10a_battery_bay();
  * Post-Processing:
  *   - Test fit battery before installing
  *   - Use 20-25mm wide velcro/battery straps
- *   - Ensure clearance is adequate (adjust BATTERY_CLEARANCE in config.scad if needed)
+ *   - Ensure clearance is adequate (adjust BATTERY_CLEARANCE above if needed)
  */
 
