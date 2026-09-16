@@ -61,7 +61,7 @@ battery_bay_pos  = [0, 0, 0];    // bay center in frame coords (mm)
 // ---- view ----
 show_support_plates = true;
 part      = "all";               // "all" | "bottom" | "middle" | "top"
-explode   = 30;                  // z gap between slices when part="all" (0 = assembled)
+explode   = 50;                  // z gap between slices when part="all" (0 = assembled)
 explode_y = 200;                   // slides fit-check parts out in y (plates +y, bay -y)
 
 // ---- battery reference dims (unused by the model; bay dims live in battery_holder.scad)
@@ -194,6 +194,27 @@ module pattern(){
 
 **translate ([0,explode_y,100]) pattern();
 
+
+
+module foldable_axis(){
+        hole_distance=22;
+        padding = 6;
+        m3_hole = 3.1;
+        radius=hole_distance*cos(45/2)+padding+m3_hole;
+        thickness=plate_thickness*1.5;
+        
+        difference(){
+            cylinder(h=thickness,r=radius,center=true);
+            translate([0,hole_distance*cos(45/2),0]) cylinder(h=plate_thickness*2,r=m3_hole/2,center=true);
+            translate([0,-hole_distance*cos(45/2),0]) cylinder(h=plate_thickness*2,r=m3_hole/2,center=true);
+            translate([hole_distance*cos(45/2),0,0]) cylinder(h=plate_thickness*2,r=m3_hole/2,center=true);
+            translate([-hole_distance*cos(45/2),0,0]) cylinder(h=plate_thickness*2,r=m3_hole/2,center=true);
+        }
+
+}
+
+translate([100,100, 20]) foldable_axis();
+
 module support_plates() {
     z_in   = frame_height/2 - frame_thickness;   // inner top/bottom face of the case
     zc_tb  = z_in - plate_thickness/2;           // true center of the top/bottom plates
@@ -212,7 +233,7 @@ module support_plates() {
     
     //bottom
     translate([0,0, -zc_tb + pair_explode("bottom")]) support_plate(-zc_tb);
-    
+    translate([zc_tb,zc_tb, -zc_tb + pair_explode("bottom")]) foldable_axis();    
 }
 
 

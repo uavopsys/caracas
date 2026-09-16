@@ -1,0 +1,58 @@
+# COTS variant configuration.
+# Values that more than one script must agree on live here; scripts compute
+# derived values themselves (e.g. plate.py derives pattern positions from
+# hole_grid and corner_standoff_offset).
+# The jigs read geometry from plate.step, so they need nothing from this file.
+
+# Arm hub: block holding the D16 carbon rod, bolts onto the plate corners.
+arm_hub:
+  size: 28            # block edge (X/Y)
+  size_height: 22     # block height (Z)
+  rod_diameter: 16    # through-bore for the carbon rod (D16)
+  rod_clearance: 0.3  # added to rod_diameter for printing (horizontal hole - see arm_hub.py)
+  screw_diameter: 3   # M3 self-tapping pilot for printed plastic (no insert)
+  hole_grid: 22       # 2x2 screw spacing; plate anchor patterns align to this
+
+# Plate: carbon fiber main plate.
+plate:
+  # ---- plate ----
+  frame_length: 200
+  frame_width: 90
+  plate_thickness: 2.5
+  corner_rounding: 5
+
+  # ---- M3 anchor patterns (one per corner) ----
+  screw_diameter: 3.2   # M3 clearance (2.5 for tapping)
+  pattern_x: 30         # pattern center distance from the plate end (short) edge
+  # pattern rotation in degrees. Forward pair: port CCW, starboard CW.
+  # Aft pair: reversed (port CW, starboard CCW). Nose is +X, port is +Y.
+  pattern_angle_forward: 0
+  pattern_angle_aft: 0
+
+  # ---- standoff holes (8 total: 4 corner + 4 middle) ----
+  standoff_diameter: 3.2          # M3 standoff screws
+  corner_standoff_offset: 5       # corner hole center distance from each edge
+  middle_standoff_edge_offset: 5  # middle hole center distance from the long edge
+  middle_standoff_x: 30           # middle hole distance from plate center along X
+
+  # ---- flight controller mounts: concentric M3 grids,
+  #      mirrored across the centerline so either side can take a stack ----
+  fc_pattern_spacings: [30.5]
+  # fc_pattern_spacings: [30.5, 25.5, 20]  # uncomment to add 25.5 + 20 grids
+  fc_hole_diameter: 3.2
+  fc_x: 0               # pattern center along the length
+  fc_y: 20              # pattern center along the width
+  fc_mirror: true       # duplicate the patterns on the mirror side (y -> -y)
+
+  # ---- lightening slots (weight reduction in the low-stress web) ----
+  lightening: true
+  slot_length: 19       # along X
+  slot_width: 5        # along Y
+  slot_radius: 1        # corner fillet - generous radii, sharp corners start cracks
+  slot_gap_from_anchor: 26  # slot center this far inward from the anchor pattern
+  slot_y: 40
+
+  # ---- forward marker: small arrow cut into the web, points at the nose (+X) ----
+  fwd_arrow: true
+  arrow_x: 45           # arrow center along the length, on the centerline
+  arrow_size: 12        # overall arrow length

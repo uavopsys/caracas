@@ -4,10 +4,13 @@ backup/
 notused/
 archive/
 
-# --- Slicer / print-prep output ---
+# --- CAD exports / print-prep output ---
 *.gcode
 *.bgcode
 *.ctb
+*.stl
+*.step
+*.3mf
 
 # --- OpenSCAD scratch ---
 *.csg
