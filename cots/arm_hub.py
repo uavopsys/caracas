@@ -1,13 +1,17 @@
 """
-Arm hub - 28x28x30mm block with D16 rod bore and M3 corner screw holes.
-Z is 30mm to match 30mm m/F standoffs. M3 holes are 2.5mm self-tapping
-pilots for printed plastic (no brass insert).
+Arm hub - printed block with a D16 rod bore and M3 corner screw holes,
+bolted onto the plate corners. All shared dimensions come from config.yaml
+(arm_hub section): block size x size x size_height (28x28x22), M3 holes cut
+at screw_diameter (3mm) as self-tapping pilots for printed plastic
+(no brass insert).
 
-The hole grid (+/- size/2 - screw_edge_offset = +/-9.5mm) must match
-pattern_hole_offset in plate.py.
+The 2x2 hole grid (hole_grid: 22 -> +/-11mm from center) must match the
+anchor patterns in plate.py - both scripts read it from config.yaml, so
+they stay in sync by construction.
 
 Run with the ocp_vscode standalone viewer running (python3.11 -m ocp_vscode),
-or headless: exports arm_hub.step / .stl next to this file.
+or headless: exports arm_hub-<rod_diameter>-<rod_clearance>-<bore_angle>.step/.stl
+next to this file.
 """
 
 import math

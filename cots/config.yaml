@@ -56,3 +56,104 @@ plate:
   fwd_arrow: true
   arrow_x: 45           # arrow center along the length, on the centerline
   arrow_size: 12        # overall arrow length
+
+# Canopy: hollow lofted pod over the electronics bay, open at the bottom.
+# Base follows the plate footprint (frame_length x frame_width); walls
+# converge up to a flat top plate lying on the slope plane.
+# Drivers: top_height, top_setback, slope_angle. The top's back edge sits at
+# top_height above the plate, top_setback from the frame back edge; with
+# slope_angle = 0 the top is flat at top_height, an angle tilts it up
+# toward the nose. All wall/corner angles follow the top's position.
+canopy:
+  slope_angle: -3      # top plate tilt, degrees from horizontal (0 = flat)
+  top_height: 20      # top plate back edge height above the plate; the slope
+                      # starts from here, rising toward the nose if angled
+  top_length: 160     # top plate size along the slope
+  top_width: 50       # top plate size across
+  top_setback: 20     # top plate back edge distance from the frame back edge
+  wall_thickness: 1.5 # PETG prints fine at 1.5 (4 perimeters); 2 for stiffness
+  rounding: 10        # one knob for all corner rounding (base and top corners)
+  flange_width: 10    # mounting ring width at the base, carries the standoff holes
+  flange_thickness: 2 # ring height off the plate
+  # projected cutout: vertical cylinder through the shell - a true circle in
+  # plan view (plate projection), elongated where it crosses sloped walls
+  cutout_diameter: 25
+  cutout_x_from_back: 40  # hole center distance from the frame back edge
+  cutout_y: 0              # centerline
+  # side service openings: rectangular cutouts in both side walls between the
+  # middle standoffs - clears the FC overhanging the plate edge and gives
+  # USB/button access. Width is derived from plate middle_standoff_x.
+  side_openings: true
+  side_opening_height: 9      # from the plate up
+  side_opening_clearance: 3   # gap between opening edge and standoff post
+  side_opening_radius: 4      # corner rounding of the opening
+  # expose the plate's lightening slots through the canopy base: the cut
+  # pierces the flange and reaches inward, so cables coming up through the
+  # slits route into the pod interior while the side wall stays intact
+  expose_slots: true
+  expose_slot_clearance: 0.5  # added around the slot profile
+  expose_slot_extend_in: 8    # how far the cut reaches inward past the slit
+  # ---- ventilation ----
+  # tail exhaust: row of horizontal slots through the rear wall; hot air
+  # leaves here
+  exhaust_slots: true
+  exhaust_slot_z: 8       # lowest slot center height above the plate
+  exhaust_slot_count: 2
+  exhaust_slot_pitch: 6   # vertical spacing between slot centers
+  exhaust_slot_width: 24  # across (Y)
+  exhaust_slot_height: 3
+  # NACA ducts in the roof: recessed ramps, flush at the rear, opening
+  # through the shell at the front lip (faces the airflow). Low drag.
+  naca_count: 2           # 0 = off; 1 = single duct on the centerline
+  naca_spacing: 20        # distance between ducts across (Y), count > 1
+  naca_length: 30         # ramp length along the slope
+  naca_width_lip: 12      # width at the open front lip
+  naca_width_tail: 4      # width at the closed rear end
+  naca_depth: 5           # ramp depth; must exceed wall_thickness to open
+  naca_lip_margin: 10     # lip distance from the top plate front edge
+
+# DJI O4 Wide air unit - reference dimensions, used by camera_holder.py for
+# the camera body. Sources: oscarliang.com reviews, fpv24.com spec table.
+o4_wide:
+  camera_width: 14        # camera housing width
+  camera_height: 20.5     # fpv24: 20.5 x 14 x 20.5 (L x W x H) - verify
+  camera_depth: 20.5      # along the lens axis - verify
+  camera_hole_spacing: 16 # 2x M2 holes per side, 16 apart along the depth
+  camera_screw: 2         # M2
+  camera_cable: 50        # coax length - air unit must sit near the nose
+  unit_size: 30           # VTX board edge, 6 mm thick
+  unit_mount: 25.5        # M2 grid spacing (25.5 x 25.5)
+  unit_weight: 13.6       # grams, with camera + antenna
+
+# Camera holder: sleeve for the O4 Wide camera - a holder_width x
+# holder_height tunnel straight through a holder_depth body, open front
+# and back. Restarted simple; features (screws, lens parts) come later.
+camera_holder:
+  holder_width: 14   # tunnel width (INNER space)
+  holder_height: 19  # tunnel height (INNER space)
+  holder_depth: 30   # body depth, front to back (extended so the sleeve
+                     # back is well embedded in the canopy wall)
+  wall: 2            # sleeve wall thickness
+  rounding: 3        # corner rounding, outer corners; inner = rounding - wall
+  hole_diameter: 2.2 # M2 clearance, horizontal (Y) through the side walls
+  hole_z: 0          # hole pair center height; 0 = tunnel mid-height
+  hole_spacing: 16   # vertical distance between the two holes of each pair
+  holes_from_front: 6  # hole pair distance from the sleeve's front face
+
+# GPS/compass holder: arc band spanning the two corner standoffs on one short
+# side of the frame (span derived from plate frame_width - 2*corner_standoff_offset),
+# bowing outward away from the drone. Height = arm_hub.size_height (the
+# standoff stack height). End bores slip over the round standoff posts.
+gps_holder:
+  standoff_diameter: 5    # round M3 standoff OD
+  standoff_clearance: 0.2 # slip fit over the standoff
+  reach: 60               # how far the arc apex bows out from the chord midpoint
+  thickness: 3            # radial thickness of the arc band
+  twist_angle: 90         # wall twist at the apex, deg from vertical. The section
+                          # rotates about its TOP edge, which stays on the arc at
+                          # full height; the bottom edge sweeps up to join it, so
+                          # at 90 deg the far end lies flat in the top plane -
+                          # a spoiler blade extending outward, height x thickness
+  twist_span: 0.333       # max fraction of arc length for both twist ramps
+                          # together (half on each side of the flat region)
+  flat_span: 0.2          # fraction of arc length held flat (full twist) at the apex
