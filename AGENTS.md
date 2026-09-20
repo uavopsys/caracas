@@ -22,6 +22,16 @@ coexist: OpenSCAD (`.scad`, older) and Python/build123d (`.py`, current).
   corner-hole grid and the plate's anchor patterns stay in sync by
   construction). Exported parts are filename-tagged with the parameters that
   vary between test prints, e.g. `arm_hub-<rod_diameter>-<rod_clearance>-<bore_angle>.stl`.
+  `motor_mount.py` is the D16 epoxy-on motor mount (2812 motor, 19mm BCD):
+  a "droplet" shell cantilevered past the tube END (blind bore = glue well,
+  insertion_depth 25mm), living entirely in the arm hub's vertical envelope
+  (platform top at +size_height/2 = 11mm, 3 leveling feet at -11mm — flush
+  with the hub faces, which is the leveling mechanism). Motor leads drop
+  through a slit in the platform into the open-bottom cavity and enter the
+  tube through a D10 hole in the bore stop (no drilling). Probe-based
+  geometry checks run on every build and print PASS/FAIL. Gotcha: a
+  clockwise-wound `Polygon` extrudes downward in build123d — `teardrop()`
+  normalizes winding before extruding.
 - `mvp/` — earlier standalone build123d scripts (hardcoded parameters,
   superseded by `cots/`).
 - Root `*.scad`, `*.stl`, `*.3mf` — legacy OpenSCAD versions; `libs/` holds

@@ -121,6 +121,33 @@ canopy:
   naca_depth: 5           # ramp depth; must exceed wall_thickness to open
   naca_lip_margin: 10     # lip distance from the top plate front edge
 
+# Motor mount: 'droplet' - teardrop shell cantilevered past the END of the
+# D16 arm tube, inside the arm hub's vertical envelope (+/- size_height/2):
+# platform top at +11, feet bottoms at -11 (flush = the leveling mechanism).
+# Blind bore = glue well; the tube's open end faces the hollow cavity, which
+# is how the motor cable gets into the tube (no drilling).
+motor_mount:
+  rod_diameter: 16        # D16 carbon arm tube (same rod as arm_hub)
+  rod_clearance: 0.4      # bore = 16.4: glue slip fit + horizontal-bore print sag
+  sleeve_diameter: 22     # ~3mm wall over the rod
+  insertion_depth: 25     # blind bore: tube bottoms against the stop face
+  stop_hole_diameter: 10  # cable pass at the bore's inner end, funnel into the cavity
+  droplet_radius: 17.5    # round end carrying the motor (~35 across)
+  droplet_center_x: 24    # round end center, outboard of the bore stop
+  skin_thickness: 3       # platform top skin
+  skirt_thickness: 2.5    # perimeter wall around the open cavity
+  skirt_bottom_z: -6      # skirt lower edge; the cavity is open below this
+  motor_bcd: 19           # 2812 pattern: 4x M3 at 45/135/225/315 deg (skyfold adapter)
+  motor_hole_diameter: 3.2
+  center_hole_diameter: 9
+  # cable opening: a rounded rectangle BETWEEN the bolt circle and the arm,
+  # like the classic aluminum clamp mounts - the motor leads exit the motor's
+  # rear edge and drop straight through into the cavity (no doubling back)
+  cable_slot_x0: 5        # tube-side end (just past the funnel)
+  cable_slot_x1: 13       # motor-side end (just behind the rear bolt holes)
+  cable_slot_width: 11  # 3 motor wires + slack pass comfortably
+  foot_size: 8            # 3 leveling feet: two on the sleeve, one at the droplet tip
+
 # DJI O4 Wide air unit - reference dimensions, used by camera_holder.py for
 # the camera body. Sources: oscarliang.com reviews, fpv24.com spec table.
 o4_wide:
