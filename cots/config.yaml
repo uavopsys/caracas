@@ -66,18 +66,27 @@ plate:
 # toward the nose. All wall/corner angles follow the top's position.
 canopy:
   slope_angle: -3      # top plate tilt, degrees from horizontal (0 = flat)
-  top_height: 20      # top plate back edge height above the plate; the slope
+  top_height: 30      # top plate back edge height above the plate; the slope
                       # starts from here, rising toward the nose if angled
   top_length: 160     # top plate size along the slope
-  top_width: 50       # top plate size across
+  top_width: 60       # top plate size across
   top_setback: 20     # top plate back edge distance from the frame back edge
   wall_thickness: 1.5 # PETG prints fine at 1.5 (4 perimeters); 2 for stiffness
   rounding: 10        # one knob for all corner rounding (base and top corners)
   flange_width: 10    # mounting ring width at the base, carries the standoff holes
   flange_thickness: 2 # ring height off the plate
+  # standoff screw seats: round pad per hole, a flat seat for the screw head.
+  # The screw passes free through the canopy and threads into the plate only.
+  standoff_clearance: 3.4   # free fit for M3 (printed holes shrink ~0.1-0.2)
+  standoff_pad_diameter: 8  # seat for a 5.5-6 head or a 7 washer
+  standoff_pad_height: 2    # pad on top of the flange: 4 mm under the head,
+                            # clamped hard so the pod can't vibrate loose
+  standoff_well_clearance: 1  # access well around each pad, cut from the pad
+                              # top up through the shell so the pad is visible
+                              # from above and the screw drops straight in
   # projected cutout: vertical cylinder through the shell - a true circle in
   # plan view (plate projection), elongated where it crosses sloped walls
-  cutout_diameter: 25
+  cutout_diameter: 28
   cutout_x_from_back: 40  # hole center distance from the frame back edge
   cutout_y: 0              # centerline
   # side service openings: rectangular cutouts in both side walls between the

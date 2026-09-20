@@ -18,6 +18,16 @@ plate's lightening slots are exposed through the canopy flange with the
 cut reaching inward, so cables from below route into the pod interior
 while the side wall stays intact; positions follow the plate config.
 
+Mounting: each of the 8 standoff positions gets a round pad on the flange
+(standoff_pad_diameter x standoff_pad_height, 4 mm of material under the
+head) with a free-fit standoff_clearance hole, so the M3 screws clamp the
+pod down hard against vibration while threading into the plate alone. A
+vertical access well (pad + standoff_well_clearance) opens from the pad
+top through the shell, so the pads sit visible at the bottom of their own
+wells and the screws drop straight in. Each pad is hugged by a
+wall_thickness sleeve rising from the flange into the shell, tying the pad
+back to the body where the well severed it.
+
 Print: PETG. wall_thickness 1.5 mm (4 perimeters at 0.4 line width) is
 enough for a shell; bump to 2 mm in config.yaml for a stiffer cover.
 
@@ -118,9 +128,17 @@ cavity_solid = cavity.solid()
 part = pod.solid() - cavity_solid
 
 # mounting flange: flat ring at plate level (full footprint border) so the 8
-# standoff screws seat flat even where the pod walls slope. Hole positions and
-# diameter come from the plate config, so they match the standoffs by
-# construction.
+# standoff screws seat flat even where the pod walls slope. Each hole gets a
+# round pad on the flange - a full flat seat for the screw head (the corner
+# holes otherwise sit on the r10 corner rounding with no margin) - and a
+# free-fit clearance hole cut only through flange + pad, so the screw passes
+# without biting the PETG and threads into the plate alone. A vertical well
+# (pad + standoff_well_clearance) is cut from the pad top up through the
+# shell, so each pad sits exposed at the bottom of its own well with the
+# screw hole in the middle. A wall_thickness sleeve hugs each pad, rising
+# from the flange until it merges into the shell the well severed, so the
+# pad stays tied to the body. Hole positions come from the plate config, so
+# they match the standoffs by construction.
 P = config["plate"]
 with BuildSketch() as flange_plan:
     ring_out = Rectangle(length, width)
@@ -137,9 +155,29 @@ for sx in (-1, 1):
                             sy * (width / 2 - P["corner_standoff_offset"])))
         standoff_xy.append((sx * P["middle_standoff_x"],
                             sy * (width / 2 - P["middle_standoff_edge_offset"])))
+# the pod's outer envelope, before hollowing - used to trim the sleeves below
+pod_envelope = pod.solid()
+
 for x, y in standoff_xy:
-    part -= Pos(x, y, -1) * Cylinder(radius=P["standoff_diameter"] / 2,
-                                     height=60)
+    part += Pos(x, y, flange_thickness + standoff_pad_height / 2) * Cylinder(
+        radius=standoff_pad_diameter / 2, height=standoff_pad_height)
+    part -= Pos(x, y, (flange_thickness + standoff_pad_height) / 2) * Cylinder(
+        radius=standoff_clearance / 2,
+        height=flange_thickness + standoff_pad_height + 2)
+    # access well: vertical cut from the pad top up through the shell, wider
+    # than the pad, so the pad is visible from above and the screw drops
+    # straight in (the leaning walls otherwise bury the pads under the shell)
+    part -= Pos(x, y, flange_thickness + standoff_pad_height + 30) * Cylinder(
+        radius=standoff_pad_diameter / 2 + standoff_well_clearance, height=60)
+    # reinforcement sleeve: a wall_thickness wall hugging the pad, standing
+    # on the flange and rising until it reaches the pod's outer envelope -
+    # it merges with the shell faces the well severed, reconnecting pad to
+    # body so the well cut doesn't weaken the canopy. Trimmed by the
+    # envelope, so it never pokes out of the shell.
+    sleeve = Pos(x, y, flange_thickness + 30) * (
+        Cylinder(radius=standoff_pad_diameter / 2 + wall_thickness, height=60)
+        - Cylinder(radius=standoff_pad_diameter / 2, height=60))
+    part += sleeve & pod_envelope
 
 # expose the plate's lightening slots through the canopy base for cable
 # pass-through: vertical prisms through the flange ONLY, with the profile
