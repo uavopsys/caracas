@@ -9,7 +9,7 @@ arm_hub:
   size: 28            # block edge (X/Y)
   size_height: 22     # block height (Z)
   rod_diameter: 16    # through-bore for the carbon rod (D16)
-  rod_clearance: 0.3  # added to rod_diameter for printing (horizontal hole - see arm_hub.py)
+  rod_clearance: 0.4  # shared arm-tube bore clearance (hub + motor mount)
   screw_diameter: 3   # M3 self-tapping pilot for printed plastic (no insert)
   hole_grid: 22       # 2x2 screw spacing; plate anchor patterns align to this
 
@@ -127,8 +127,6 @@ canopy:
 # Blind bore = glue well; the tube's open end faces the hollow cavity, which
 # is how the motor cable gets into the tube (no drilling).
 motor_mount:
-  rod_diameter: 16        # D16 carbon arm tube (same rod as arm_hub)
-  rod_clearance: 0.4      # bore = 16.4: glue slip fit + horizontal-bore print sag
   sleeve_diameter: 22     # ~3mm wall over the rod
   insertion_depth: 25     # blind bore: tube bottoms against the stop face
   stop_hole_diameter: 10  # cable pass at the bore's inner end, funnel into the cavity

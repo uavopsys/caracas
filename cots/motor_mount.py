@@ -6,7 +6,8 @@ centered bore at z=0, platform top at exactly +size_height/2 (11mm), nothing
 below -size_height/2 (-11mm). Flush tops and bottoms with the arm hub ARE
 the leveling mechanism (see below).
 
-Geometry (shared values from config.yaml, motor_mount section):
+Geometry (shared values from config.yaml; the arm tube dimensions come from
+the arm_hub section and mount-specific values from motor_mount):
 - BLIND bore (glue well) = rod_diameter + rod_clearance = 16.4mm: the tube
   inserts insertion_depth (25mm) from the hub-facing end and bottoms against
   a stop face. Past the stop a 10mm hole opens into the droplet's hollow
@@ -61,9 +62,10 @@ with open("config.yaml") as f:
     config = yaml.safe_load(f)
 
 cfg = config["motor_mount"]
+arm_cfg = config["arm_hub"]
 
-rod_diameter = cfg["rod_diameter"]        # D16 carbon arm tube
-rod_clearance = cfg["rod_clearance"]      # glue slip fit + horizontal-bore sag
+rod_diameter = arm_cfg["rod_diameter"]    # shared D16 carbon arm tube
+rod_clearance = arm_cfg["rod_clearance"]  # shared horizontal-bore clearance
 sleeve_diameter = cfg["sleeve_diameter"]  # ~3mm wall over the rod
 insertion_depth = cfg["insertion_depth"]  # blind bore: tube bottoms against the stop
 stop_hole_diameter = cfg["stop_hole_diameter"]  # cable pass at the bore's inner end
